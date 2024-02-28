@@ -1,23 +1,18 @@
-
-  string frequencySort(string s) {
-    const int n = s.length();
-    string ans;
-    vector<int> count(128);
-    // buckets[i] := characters that appear i times in s
-    vector<vector<char>> buckets(n + 1);
-
-    for (const char c : s)
-      ++count[c];
-
-    for (int i = 0; i < 128; ++i) {
-      const int freq = count[i];
-      if (freq > 0)
-        buckets[freq].push_back((char)i);
+    string frequencySort(string s) {
+        map <char, int> mp;
+        //map
+        for(int i=0; i<s.size(); i++)
+        mp[s[i]]++;
+        string ans = "";;
+        priority_queue<pair<int, char>> pq;
+        for(auto i : mp)
+        pq.push({i.second,i.first});
+        while(!pq.empty()){
+            int n = pq.top().first;
+            while(n--){
+                ans += pq.top().second;
+            }
+            pq.pop();
+        }
+        return ans;
     }
-
-    for (int freq = n; freq > 0; --freq)
-      for (const char c : buckets[freq])
-        ans += string(freq, c);
-
-    return ans;
-  }
